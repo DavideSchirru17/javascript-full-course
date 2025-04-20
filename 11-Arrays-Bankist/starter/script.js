@@ -291,3 +291,94 @@ const displaySomma = function (el) {
 // invoko la funzione passando l' array di interesse che sara el
 displaySomma(account4.movements);
 // c: print the value in the DOM 1. function display
+
+/* 
+Let's go back to Julia and Kate's study about dogs. This time, they want to convert dog ages to human ages and calculate the average age of the dogs in their study.
+
+Create a function 'calcAverageHumanAge', which accepts an arrays of dog's ages ('ages'), and does the following things in order:
+
+1. Calculate the dog age in human years using the following formula: if the dog is <= 2 years old, humanAge = 2 * dogAge. If the dog is > 2 years old, humanAge = 16 + dogAge * 4.
+2. Exclude all dogs that are less than 18 human years old (which is the same as keeping dogs that are at least 18 years old)
+3. Calculate the average human age of all adult dogs (you should already know from other challenges how we calculate averages 😉)
+4. Run the function for both test datasets
+
+TEST DATA 1: [5, 2, 4, 1, 15, 8, 3]
+TEST DATA 2: [16, 6, 10, 5, 6, 1, 4]
+
+GOOD LUCK 😀
+*/
+
+// const calcAverageHumanAge = function (ages) {
+//   // transform age
+//   const humanAges = ages.map(age => (age <= 2 ? 2 * age : 16 + age * 4));
+//   // filter
+//   const adults = humanAges.filter(age => age >= 18);
+//   console.log(humanAges);
+//   console.log(adults);
+
+//   // .reduce(accumulation, age , index , arr )
+//   const avarage = adults.reduce((acc, age) => acc + age, 0) / adults.length;
+//   return avarage;
+// };
+
+// calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]);
+// const avg1 = calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]);
+// console.log(avg1);
+
+// costante di cambio
+const euroToUSD = 1.1;
+
+// totalDepositUSD : funzione
+// 1. elimina i valori negativi
+// 2. converte ogni songolo EURO * il cambio in UDS
+// 3. riduce ad un singolo valore = somma totale dei depositi fatti
+
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+const totalDepositUSD = movements
+  .filter(mov => mov > 0)
+  .map((mov, i, arr) => {
+    console.log(
+      `Array created by the .map () ${arr} che ha eliminato i valori negativi `
+    );
+    mov * euroToUSD;
+  })
+  .reduce((acc, mov) => acc + mov, 0);
+
+console.log(totalDepositUSD);
+
+// Coding Challenge #3
+
+/* 
+Rewrite the 'calcAverageHumanAge' function from the previous challenge, 
+but this time as an arrow function, and using chaining!
+
+TEST DATA 1: [5, 2, 4, 1, 15, 8, 3]
+TEST DATA 2: [16, 6, 10, 5, 6, 1, 4]
+
+GOOD LUCK 😀
+*/
+
+const calcAverageHumanAge = ages =>
+  ages
+    .map(age => (age <= 2 ? 2 * age : 16 + age * 4))
+    .filter(age => age >= 18)
+    .reduce((acc, age, i, arr) => acc + age / arr.length, 0);
+
+calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]);
+const avg1 = calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]);
+console.log(avg1);
+
+//!164  .find() : find the first element of the condition
+
+// .find mi trova il primo elemento - a differenza di filter the mi trova diversi e crea un array
+const firstWithdrawal = movements.find(el => el < 0);
+const allNegatives = movements.filter(el => el < 0);
+console.log(allNegatives);
+console.log(firstWithdrawal);
+
+// trova il nome della persona acc.owner === 'Jessica'
+const accountName = accounts.find(el => el.owner === 'Jessica Davis');
+console.log(accountName);
+
+// c: .find a name in an object
