@@ -62,21 +62,22 @@ const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
 // display movimenti - che riceve dati come i movements
-const displayMovements = function (movements) {
-  // per ogni element ()mov, index iterazione
-
+const displayMovements = function (movements, sort = false) {
   containerMovements.innerHTML = '';
 
-  movements.forEach(function (mov, i) {
-    // ternary operator type class diventa o deposit o withdrow
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+
+  movs.forEach(function (mov, i) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
-    // create multiline
-    const html = `<div class="movements__row">
-          <div class="movements__type movements__type--${type}">${
+
+    const html = `
+      <div class="movements__row">
+        <div class="movements__type movements__type--${type}">${
       i + 1
-    }${type}</div>
-          <div class="movements__value">${mov}</div>
-        </div>`;
+    } ${type}</div>
+        <div class="movements__value">${mov}€</div>
+      </div>
+    `;
 
     containerMovements.insertAdjacentHTML('afterbegin', html);
   });
@@ -382,3 +383,117 @@ const accountName = accounts.find(el => el.owner === 'Jessica Davis');
 console.log(accountName);
 
 // c: .find a name in an object
+
+// ! LOGIN
+
+// 1 current account?
+// 2. click del bottone
+//  - trova username === oginuser .valaue
+// if() curren pin === number input login pin
+let currentAccount;
+
+btnLogin.addEventListener('click', function (e) {
+  // Prevent form from submitting
+  e.preventDefault();
+
+  currentAccount = accounts.find(
+    acc => acc.username === inputLoginUsername.value
+  );
+  console.log(currentAccount);
+
+  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+    // Display UI and message
+    labelWelcome.textContent = `Welcome back, ${
+      currentAccount.owner.split(' ')[0]
+    }`;
+    containerApp.style.opacity = 1;
+
+    // Clear input fields
+    inputLoginUsername.value = inputLoginPin.value = '';
+    inputLoginPin.blur();
+
+    // Update UI
+    updateUI(currentAccount);
+  }
+});
+
+// 166 implementing transfers
+
+btnTransfer.addEventListener('click', function (e) {
+  e.preventDefault();
+  const amount = Number(inputTransferAmount.value);
+  const receiverAcc = accounts.find(
+    acc => acc.username === inputTransferTo.value
+  );
+  inputTransferAmount.value = inputTransferTo.value = '';
+
+  if (
+    amount > 0 &&
+    receiverAcc &&
+    currentAccount.balance >= amount &&
+    receiverAcc?.username !== currentAccount.username
+  ) {
+    // Doing the transfer
+    currentAccount.movements.push(-amount);
+    receiverAcc.movements.push(amount);
+
+    // Update UI
+    updateUI(currentAccount);
+  }
+});
+
+// 167 find index
+// delte elemnt form array
+btnClose.addEventListener('click', function (e) {
+  e.preventDefault();
+  console.log('Delete');
+  if (
+    currentAccount.userName === inputCloseUsername.value &&
+    currentAccount.pin === Number(inputClosePin.value)
+  ) {
+    const index = accounts.findIndex(
+      acc => acc.username === currentAccount.username
+    );
+    // .indexof(23)
+    accounts.splice(index, 1);
+
+    // hide UI
+    containerApp.style.opacity = 0;
+  }
+});
+
+// 168 findlast findlastindex
+console.log(movements);
+const lastWithdrawal = movements.findLast(mov => mov < 0);
+console.log(lastWithdrawal);
+
+// Your latest large movments was X movements ago
+const latestLargeMovementIndex = movements.findLastIndex(
+  mov => Math.abs(mov) > 2000
+);
+
+console.log(latestLargeMovementIndex);
+console.log(
+  `Your latest large movments was ${
+    movements.length - latestLargeMovementIndex
+  } movements ago`
+);
+
+// 169 some every
+console.log(movements);
+// Equality
+console.log(movements.includes(-130));
+// some: condition
+console.log(movements.some(mov => mov === -130));
+
+const anyDeposits = movements.some(mov => mov > 0);
+console.log(anyDeposits);
+
+// EVERY
+console.log(account4.movements.every(mov => mov > 0));
+
+// separate callback
+const deposit = mov => mov > 0;
+console.log(movements.some(deposit));
+console.log(movements.every(deposit));
+console.log(movements.filter(deposit));
