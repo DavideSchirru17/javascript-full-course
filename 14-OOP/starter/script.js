@@ -150,4 +150,30 @@ const sarah = Object.create(PersonProto);
 sarah.init('Sarah', 1979);
 sarah.calcAge();
 
-// CHLLENGE 2
+// ! CHLLENGE 2
+console.log('---challenge 2---');
+// ES6 class
+
+class CarES6 {
+  // contructor
+  constructor(make, speed) {
+    this.make = make;
+    this.speed = speed;
+  }
+  // methods
+  acceleration() {
+    console.log((this.speed += 15));
+  }
+
+  brake() {
+    console.log((this.speed -= 10));
+  }
+}
+const lamborghini = new CarES6('lamborghini', 400);
+const bugatti = new CarES6('bugatti', 500);
+
+lamborghini.acceleration();
+lamborghini.acceleration();
+lamborghini.brake();
+
+
