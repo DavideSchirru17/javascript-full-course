@@ -24,12 +24,15 @@ body {
   display: flex;
   flex-flow: column;
   align-items: center;
+  border: solid black;
+  padding: 2rem;
 }
 
 .countries {
   /* margin-bottom: 8rem; */
-  display: flex;
-
+  display: block;
+  border: solid red;
+  padding: 3rem;
   font-size: 2rem;
   opacity: 0;
   transition: opacity 1s;
